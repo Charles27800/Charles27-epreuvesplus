@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ÉpreuvePlus — Épreuves, QCM &amp; Corrigés</title>
+  <style>
+    :root {
+      --primary: #0f3d6e;
+      --primary-dark: #092747;
+      --accent: #0ea5e9;
+      --success: #15803d;
+      --warning: #b45309;
+      --danger: #b91c1c;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #cbd5e1;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 48px;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: #ffffff;
+      padding: 20px 16px;
+      box-shadow: 0 4px 14px rgba(15, 61, 110, 0.22);
+    }
+
+    .header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand h1 {
+      font-size: 1.5rem;
+      letter-spacing: 0.3px;
+    }
+
+    .brand p {
+      font-size: 0.88rem;
+      color: #dbeafe;
+      margin-top: 2px;
+    }
+
+    .meta-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.82rem;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .badge-wa {
+      background: #16a34a;
+      border-color: #22c55e;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 20px auto 0;
+      padding: 0 14px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .tab-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 10px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .cat-tabs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .cat-btn {
+      background: #f8fafc;
+      border: 2px solid var(--border);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .cat-btn.active {
+      background: #e0f2fe;
+      border-color: var(--primary);
+      color: var(--primary-dark);
+    }
+
+    .panel {
+      display: none;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .panel-title {
+      font-size: 1.15rem;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .panel-sub {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 9px 11px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.92rem;
+      background: #ffffff;
+      color: var(--text);
+    }
+
+    textarea {
+      min-height: 76px;
+      resize: vertical;
+    }
+
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(295px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .tag {
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .tag-level {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .tag-cat {
+      background: #ede9fe;
+      color: #5b21b6;
+    }
+
+    .tag-free {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .offer-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .offer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .price {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 0.88rem;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 8px;
+      padding: 8px 11px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: #ffffff;
+    }
+
+    .btn-warning {
+      background: var(--warning);
+      color: #ffffff;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #ffffff;
+    }
+
+    .btn-outline {
+      background: #ffffff;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .qcm-box {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      background: #f8fafc;
+    }
+
+    .qcm-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .qcm-option input {
+      width: auto;
+    }
+
+    .notice {
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      font-size: 0.88rem;
+      border: 1px solid transparent;
+    }
+
+    .notice-info {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: #1e3a8a;
+    }
+
+    .notice-ok {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+      color: #14532d;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .row-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 28px 12px;
+      color: var(--muted);
+    }
+
+    /* Modal de paiement automatique */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      z-index: 1000;
+      padding: 16px;
+      overflow-y: auto;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border-radius: 14px;
+      max-width: 480px;
+      width: 100%;
+      padding: 20px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .modal-header h3 {
+      font-size: 1.08rem;
+      color: var(--primary);
+    }
+
+    .close-modal {
+      background: #f1f5f9;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .payment-summary {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.86rem;
+      margin-bottom: 12px;
+      color: #1e3a8a;
+    }
+
+    .tx-item {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      background: #f8fafc;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 600px) {
+      .brand h1 {
+        font-size: 1.25rem;
+      }
+      .panel {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <h1>ÉpreuvePlus</h1>
+        <p>Épreuves, QCM automatisés et corrigés — Filières techniques &amp; scientifiques</p>
+      </div>
+      <div class="meta-badges">
+        <a class="badge badge-wa" href="https://wa.me/2290152258067" target="_blank" rel="noopener">
+          WhatsApp : +229 0152258067
+        </a>
+        <span class="badge">IFU : 0202448923815</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="statusBanner" class="notice notice-info">
+      Plateforme prête. Choisissez un catalogue, puis sélectionnez l'épreuve ou le pack (épreuve + corrigé).
+    </div>
+
+    <nav class="tabs" aria-label="Navigation principale">
+      <button class="tab-btn active" data-tab="eleve">Élève / Étudiant</button>
+      <button class="tab-btn" data-tab="qcm">QCM Automatisé</button>
+      <button class="tab-btn" data-tab="enseignant">Enseignant (Ajout &amp; PDF)</button>
+      <button class="tab-btn" data-tab="paiement">Paiements &amp; Sauvegarde</button>
+    </nav>
+
+    <!-- ONGLET 1 : ÉLÈVE / ÉTUDIANT -->
+    <section id="tab-eleve" class="panel active">
+      <h2 class="panel-title">Catalogues des épreuves &amp; corrigés</h2>
+      <p class="panel-sub">Sélectionnez le catalogue souhaité, puis choisissez <strong>L'Épreuve</strong> ou le <strong>Pack (Épreuve + Corrigé)</strong>.</p>
+
+      <!-- SÉLECTEUR DE CATALOGUE PAR CATÉGORIE -->
+      <div class="cat-tabs" role="tablist" aria-label="Catalogues">
+        <button class="cat-btn active" data-cat="evaluation">Catalogue des épreuves d'évaluation</button>
+        <button class="cat-btn" data-cat="devoir">Catalogue des épreuves de devoir</button>
+        <button class="cat-btn" data-cat="examen">Catalogue des épreuves d'examen (CAP, DT, BAC, DTM, DTMS)</button>
+      </div>
+
+      <div class="filters">
+        <div>
+          <label for="filterMatiere">Matière</label>
+          <select id="filterMatiere">
+            <option value="">Toutes les matières</option>
+            <option value="Automatisme">Automatisme</option>
+            <option value="Électrotechnique">Électrotechnique</option>
+            <option value="Technologie">Technologie</option>
+            <option value="MEL">MEL</option>
+            <option value="TP">TP</option>
+            <option value="EST">EST</option>
+            <option value="MATHS">MATHS</option>
+            <option value="PCT">PCT</option>
+          </select>
+        </div>
+        <div>
+          <label for="filterDiplome">Diplôme / Niveau</label>
+          <select id="filterDiplome">
+            <option value="">Tous les niveaux / diplômes</option>
+            <option value="2nde F3">2nde F3</option>
+            <option value="1ère F3">1ère F3</option>
+            <option value="CAP">CAP (CAP EL)</option>
+            <option value="DT">DT (DT EL)</option>
+            <option value="BAC">BAC (BAC F3)</option>
+            <option value="DTM">DTM</option>
+            <option value="DTMS">DTMS</option>
+          </select>
+        </div>
+        <div>
+          <label for="filterSearch">Recherche mot-clé</label>
+          <input id="filterSearch" type="text" placeholder="Ex. 1D1S, GRAFCET, étoile-triangle..." />
+        </div>
+      </div>
+
+      <div id="catalogueList" class="grid-cards"></div>
+    </section>
+
+    <!-- ONGLET 2 : QCM AUTOMATISÉ -->
+    <section id="tab-qcm" class="panel">
+      <h2 class="panel-title">QCM Automatisé</h2>
+      <p class="panel-sub">Entraînez-vous sur des questions techniques et obtenez votre score immédiatement.</p>
+
+      <div class="filters">
+        <div>
+          <label for="qcmMatiere">Thème du QCM</label>
+          <select id="qcmMatiere">
+            <option value="all">Toutes les questions</option>
+            <option value="Électrotechnique">Électrotechnique</option>
+            <option value="Automatisme">Automatisme</option>
+            <option value="MEL">MEL</option>
+            <option value="MATHS">MATHS</option>
+          </select>
+        </div>
+        <div style="display:flex; align-items:flex-end;">
+          <button id="btnStartQcm" class="btn btn-primary" style="width:100%;">Charger / Réinitialiser le QCM</button>
+        </div>
+      </div>
+
+      <div id="qcmContainer" class="qcm-box"></div>
+    </section>
+    <!-- ONGLET 3 : ENSEIGNANT -->
+    <section id="tab-enseignant" class="panel">
+      <h2 class="panel-title">Espace Enseignant — Ajout &amp; Gestion des épreuves</h2>
+      <p class="panel-sub">Classez chaque document dans son catalogue (Évaluation, Devoir ou Examen) avec le tarif de l'épreuve seule et du pack (épreuve + corrigé).</p>
+
+      <form id="formAjoutEpreuve">
+        <div class="form-grid">
+          <div>
+            <label for="epTitre">Titre de l'épreuve *</label>
+            <input id="epTitre" type="text" required placeholder="Ex. 1er Devoir Surveillé — Automatisme (2nde F3)" />
+          </div>
+          <div>
+            <label for="epCatalogue">Catalogue de destination *</label>
+            <select id="epCatalogue" required>
+              <option value="evaluation">Catalogue des épreuves d'évaluation</option>
+              <option value="devoir">Catalogue des épreuves de devoir</option>
+              <option value="examen">Catalogue des épreuves d'examen (CAP, DT, BAC, DTM, DTMS)</option>
+            </select>
+          </div>
+          <div>
+            <label for="epMatiere">Matière *</label>
+            <select id="epMatiere" required>
+              <option value="Automatisme">Automatisme</option>
+              <option value="Électrotechnique">Électrotechnique</option>
+              <option value="Technologie">Technologie</option>
+              <option value="MEL">MEL</option>
+              <option value="TP">TP</option>
+              <option value="EST">EST</option>
+              <option value="MATHS">MATHS</option>
+              <option value="PCT">PCT</option>
+            </select>
+          </div>
+          <div>
+            <label for="epDiplome">Diplôme / Niveau *</label>
+            <select id="epDiplome" required>
+              <option value="2nde F3">2nde F3</option>
+              <option value="1ère F3">1ère F3</option>
+              <option value="CAP">CAP (CAP EL)</option>
+              <option value="DT">DT (DT EL)</option>
+              <option value="BAC">BAC (BAC F3)</option>
+              <option value="DTM">DTM</option>
+              <option value="DTMS">DTMS</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label for="epPrixEpreuve">Tarif Épreuve seule (FCFA)</label>
+            <input id="epPrixEpreuve" type="number" min="0" step="50" value="0" />
+          </div>
+          <div>
+            <label for="epPrixPack">Tarif Pack (Épreuve + Corrigé) (FCFA)</label>
+            <input id="epPrixPack" type="number" min="0" step="50" value="500" />
+          </div>
+          <div>
+            <label for="epPdfEpreuve">Lien PDF de l'Épreuve (optionnel)</label>
+            <input id="epPdfEpreuve" type="text" placeholder="https://.../epreuve.pdf" />
+          </div>
+          <div>
+            <label for="epPdfCorrige">Lien PDF du Corrigé Type (optionnel)</label>
+            <input id="epPdfCorrige" type="text" placeholder="https://.../corrige.pdf" />
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label for="epResume">Contenu / Résumé de l'épreuve</label>
+            <textarea id="epResume" placeholder="Énoncé, durée, coefficient, chapitres abordés..."></textarea>
+          </div>
+          <div>
+            <label for="epCorrigeTexte">Contenu / Barème du Corrigé Type</label>
+            <textarea id="epCorrigeTexte" placeholder="Collez ici le corrigé détaillé ou le barème de correction..."></textarea>
+          </div>
+        </div>
+
+        <div class="row-actions">
+          <button type="submit" class="btn btn-success">Enregistrer dans le catalogue</button>
+          <button type="reset" class="btn btn-outline">Effacer les champs</button>
+        </div>
+      </form>
+
+      <hr style="margin:20px 0; border:none; border-top:1px solid var(--border);" />
+      <h3 style="margin-bottom:10px; font-size:1rem;">Épreuves enregistrées (<span id="countEpreuves">0</span>)</h3>
+      <div id="enseignantList" class="grid-cards"></div>
+    </section>
+
+    <!-- ONGLET 4 : PAIEMENTS & SAUVEGARDE -->
+    <section id="tab-paiement" class="panel">
+      <h2 class="panel-title">Suivi des paiements, Déblocage &amp; Sauvegarde</h2>
+      <p class="panel-sub">Retrouvez les références de paiement enregistrées par les élèves ou débloquez l'accès complet.</p>
+
+      <div class="notice notice-info">
+        <strong>Numéro officiel de réception Mobile Money &amp; WhatsApp :</strong> <strong>+229 0152258067</strong> — IFU : <strong>0202448923815</strong>.
+      </div>
+
+      <div class="form-grid">
+        <div>
+          <label for="unlockCode">Code de déblocage administrateur / élève</label>
+          <input id="unlockCode" type="text" placeholder="Ex. EPREUVE2026" />
+        </div>
+        <div style="display:flex; align-items:flex-end;">
+          <button id="btnUnlockAll" class="btn btn-success" style="width:100%;">Valider le code d'accès</button>
+        </div>
+      </div>
+
+      <div class="row-actions" style="margin-top:14px;">
+        <a class="btn btn-primary" href="https://wa.me/2290152258067?text=Bonjour%20%C3%89preuvePlus%2C%20je%20souhaite%20v%C3%A9rifier%20un%20paiement." target="_blank" rel="noopener">
+          Contacter sur WhatsApp
+        </a>
+        <button id="btnExportJson" class="btn btn-outline">Exporter catalogue &amp; paiements (JSON)</button>
+        <button id="btnResetDemo" class="btn btn-danger">Réinitialiser le catalogue par défaut</button>
+      </div>
+
+      <div id="unlockStatus" style="margin-top:14px; font-size:0.9rem; color:var(--muted);"></div>
+
+      <hr style="margin:20px 0; border:none; border-top:1px solid var(--border);" />
+      <h3 style="margin-bottom:10px; font-size:1rem;">Paiements enregistrés (<span id="countPaiements">0</span>)</h3>
+      <div id="paiementsList"></div>
+    </section>
+  </main>
+
+  <!-- FENÊTRE AUTOMATIQUE DE PAIEMENT (ÉPREUVE OU PACK) -->
+  <div id="paymentModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalPayTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 id="modalPayTitle">Validation du paiement</h3>
+          <p style="font-size:0.83rem; color:var(--muted);">Renseignez vos informations de paiement Mobile Money pour débloquer et télécharger.</p>
+        </div>
+        <button type="button" id="btnCloseModal" class="close-modal" aria-label="Fermer">✕</button>
+      </div>
+
+      <div id="modalPaySummary" class="payment-summary"></div>
+
+      <form id="formPaiementEleve">
+        <input type="hidden" id="payEpreuveId" />
+        <input type="hidden" id="payOptionType" />
+
+        <div style="margin-bottom:10px;">
+          <label for="payNomPrenom">Nom et prénom *</label>
+          <input id="payNomPrenom" type="text" required placeholder="Ex. DOSSOU Jean-Marc" />
+        </div>
+
+        <div style="margin-bottom:10px;">
+          <label for="payReseau">Réseau mobile *</label>
+          <select id="payReseau" required>
+            <option value="">-- Choisir le réseau mobile --</option>
+            <option value="MTN MoMo">MTN MoMo</option>
+            <option value="Moov Money">Moov Money</option>
+            <option value="Celtiis Cash">Celtiis Cash</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom:10px;">
+          <label for="payNumero">Numéro de paiement *</label>
+          <input id="payNumero" type="tel" required placeholder="Ex. +229 01XXXXXXXX" />
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label for="payReference">Code de référence du paiement *</label>
+          <input id="payReference" type="text" required placeholder="Ex. ID Transaction / Réf. SMS" />
+        </div>
+
+        <div class="row-actions">
+          <button type="submit" class="btn btn-success" style="flex:1;">Confirmer le paiement &amp; Débloquer</button>
+          <button type="button" id="btnCancelModal" class="btn btn-outline">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const STORAGE_KEY = "EPREUVEPLUS_DATA_V2";
+      const UNLOCK_KEY = "EPREUVEPLUS_UNLOCKED_V2";
+      const PAID_ITEMS_KEY = "EPREUVEPLUS_PAID_ITEMS_V2";
+      const TRANSACTIONS_KEY = "EPREUVEPLUS_TX_V2";
+      const VALID_CODES = ["EPREUVE2026", "CHARLES27", "EPLUS2026"];
+
+      const CATALOGUE_LABELS = {
+        evaluation: "Évaluation",
+        devoir: "Devoir",
+        examen: "Examen"
+      };
+
+      const EPREUVES_INITIALES = [
+        {
+          id: "ep-auto-2nde-1d1s",
+          titre: "1er Devoir Surveillé — Automatisme (2nde F3, 2026-2027)",
+          catalogue: "devoir",
+          matiere: "Automatisme",
+          diplome: "2nde F3",
+          prixEpreuve: 0,
+          prixPack: 500,
+          pdfEpreuve: "",
+          pdfCorrige: "https://charles27800.github.io/Charles27-epreuvesplus/CORRIG%C3%89%20TYPE%201D1S%20AUTO%202NDE%20F3.pdf",
+          resume: "CPET Archimède (2026-2027) — Coef 3, Durée 3h. Systèmes de numération, rang et poids, transcodage entre bases (2, 8, 10, 16), codes BCD/Gray et opérations binaires.",
+          corrigeTexte:
+            "CPET ARCHIMÈDE — 1er DEVOIR SURVEILLÉ D'AUTOMATISME (2nde F3 | Coef: 3 | Durée: 3h | Barème /20)\n" +
+            "Tâche I (2,5 pts) : 1. 42001 octal = Vrai | 2. 95H102 hexa = Faux | 3. 100,001 binaire = Vrai | 4. 10201 binaire = Faux | 5. 8452 décimal = Vrai.\n" +
+            "Tâche II (3,5 pts) : Rangs & Poids — (20C18)16 [C: rang 2, poids 256 ; 8: rang 0, poids 1] ; (1960,25)10 [2: rang 1, poids 10 ; 6: rang -1, poids 0,1] ; (67531)8 [7: rang 3, poids 512 ; 1: rang 0, poids 1] ; (1011)2 [0: rang 2, poids 4].\n" +
+            "Tâche III (8,0 pts) : (ADE,38)16=(2782,21875)10 ; (10010111)2=151(10) ; (476)8=318(10) ; (965,625)10=(1111000101,101)2 ; (C79)16=(110001111001)2 ; (607)8=(110000111)2 ; (1157,365)10≈(2205,272)8 ; (FIFA)16=(170372)8 ; (10111010001)2=(2721)8 ; (10110110011101)2=(2D9D)16 ; (3589)10=(E05)16 ; (7106)8=(E46)16.\n" +
+            "Tâche IV (5,0 pts) : A=68 [Bin: 1000100, BCD: 0110 1000, Gray: 1100110] ; B=201 [Bin: 11001001, BCD: 0010 0000 0001, Gray: 10101101] ; C=5214 [Bin: 101000101110, BCD: 0101 0010 0001 0100, Gray: 1111001110001]. Opérations : 111101x11=10110111(2) ; 1111001/1011=1011(2) reste 0 ; 1110001111-1111111000=1100100111(2) ; 111000111+111111000=10101000111(2)."
+        },
+        {
+          id: "ep-eval-1",
+          titre: "Évaluation diagnostique — Démarrage des moteurs asynchrones triphasés",
+          catalogue: "evaluation",
+          matiere: "Électrotechnique",
+          diplome: "1ère F3",
+          prixEpreuve: 0,
+          prixPack: 500,
+          pdfEpreuve: "",
+          pdfCorrige: "",
+          resume: "Lecture de plaque signalétique 230V/400V, choix du couplage étoile ou triangle, schémas de puissance et de commande.",
+          corrigeTexte: "Couplage étoile sur réseau 400V pour moteur 230V/400V. Rapport IdY / IdΔ = 1/3."
+        },
+        {
+          id: "ep-exam-bac-1",
+          titre: "Sujet type Examen BAC F3 — Étude des Systèmes Techniques (GRAFCET & Puissance)",
+          catalogue: "examen",
+          matiere: "EST",
+          diplome: "BAC",
+          prixEpreuve: 500,
+          prixPack: 1000,
+          pdfEpreuve: "",
+          pdfCorrige: "",
+          resume: "Analyse fonctionnelle, GRAFCET point de vue commande, dimensionnement des protections et bilan de puissance.",
+          corrigeTexte: "Corrigé type complet de l'épreuve d'examen BAC F3."
+        },
+        {
+          id: "ep-exam-cap-1",
+          titre: "Sujet type Examen CAP EL — Installations électriques domestiques",
+          catalogue: "examen",
+          matiere: "Électrotechnique",
+          diplome: "CAP",
+          prixEpreuve: 300,
+          prixPack: 700,
+          pdfEpreuve: "",
+          pdfCorrige: "",
+          resume: "Schéma architectural, développé et multifilaire d'un va-et-vient et d'un télérupteur, choix des calibres de disjoncteurs.",
+          corrigeTexte: "Corrigé type CAP EL : calibres 10A/16A, sections 1,5 mm² éclairage et 2,5 mm² prises."
+        }
+      ];
+
+      const QCM_BANQUE = [
+        {
+          matiere: "Électrotechnique",
+          question: "Un moteur triphasé porte la plaque 230 V / 400 V sur un réseau 400 V entre phases. Quel couplage statorique faut-il réaliser ?",
+          options: ["Couplage étoile", "Couplage triangle", "Couplage Dahlander"],
+          reponse: 0
+        },
+        {
+          matiere: "Électrotechnique",
+          question: "Lors d'un démarrage étoile-triangle, quel est le rapport entre le courant de démarrage en ligne étoile (IdY) et triangle (IdΔ) ?",
+          options: ["IdY = 3 × IdΔ", "IdY = (1/3) × IdΔ", "IdY = IdΔ"],
+          reponse: 1
+        },
+        {
+          matiere: "Automatisme",
+          question: "Dans un GRAFCET, quelle règle encadre l'évolution d'une étape lors du franchissement d'une transition validée ?",
+          options: ["Activation aval et désactivation amont", "Activation amont uniquement", "Réinitialisation totale du cycle"],
+          reponse: 0
+        },
+        {
+          matiere: "Automatisme",
+          question: "Quel est l'équivalent décimal du nombre binaire (10010111)₂ ?",
+          options: ["149", "151", "155"],
+          reponse: 1
+        },
+        {
+          matiere: "MEL",
+          question: "Avant toute mesure de résistance hors tension sur un enroulement, que faut-il vérifier ?",
+          options: ["L'absence totale de tension", "La présence d'une charge inductive", "La mise à la terre en mode ampèremètre"],
+          reponse: 0
+        },
+        {
+          matiere: "MATHS",
+          question: "Quelle est la valeur décimale du nombre binaire (1100)₂ ?",
+          options: ["8", "10", "12"],
+          reponse: 2
+        }
+      ];
+
+      function safeParseArray(raw) {
+        if (!raw) return null;
+        try {
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : null;
+        } catch (err) {
+          return null;
+        }
+      }
+
+      function chargerEpreuves() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          const parsed = safeParseArray(raw);
+          if (parsed && parsed.length > 0) return parsed;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(EPREUVES_INITIALES));
+          return [...EPREUVES_INITIALES];
+        } catch (err) {
+          return [...EPREUVES_INITIALES];
+        }
+      }
+
+      function sauvegarderEpreuves(liste) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(liste));
+        } catch (err) {
+          setBanner("Impossible d'enregistrer dans le stockage local.", "info");
+        }
+      }
+
+      function getPaidItems() {
+        try {
+          return safeParseArray(localStorage.getItem(PAID_ITEMS_KEY)) || [];
+        } catch (err) {
+          return [];
+        }
+      }
+
+      function markOptionPaid(epreuveId, optionType) {
+        const current = getPaidItems();
+        const key = epreuveId + "::" + optionType;
+        if (!current.includes(key)) {
+          current.push(key);
+          try {
+            localStorage.setItem(PAID_ITEMS_KEY, JSON.stringify(current));
+          } catch (err) {}
+        }
+      }
+
+      function isOptionUnlocked(ep, optionType) {
+        if (estDebloque()) return true;
+        const paid = getPaidItems();
+        if (paid.includes(ep.id + "::pack")) return true;
+        if (optionType === "epreuve") {
+          return Number(ep.prixEpreuve || 0) === 0 || paid.includes(ep.id + "::epreuve");
+        }
+        return Number(ep.prixPack || 0) === 0 || paid.includes(ep.id + "::pack");
+      }
+
+      function getTransactions() {
+        try {
+          return safeParseArray(localStorage.getItem(TRANSACTIONS_KEY)) || [];
+        } catch (err) {
+          return [];
+        }
+      }
+
+      function saveTransaction(tx) {
+        const list = getTransactions();
+        list.unshift(tx);
+        try {
+          localStorage.setItem(TRANSACTIONS_KEY, JSON.stringify(list));
+        } catch (err) {}
+      }
+
+      function estDebloque() {
+        try {
+          return localStorage.getItem(UNLOCK_KEY) === "true";
+        } catch (err) {
+          return false;
+        }
+      }
+
+      function setBanner(msg, type) {
+        const el = document.getElementById("statusBanner");
+        if (!el) return;
+        el.textContent = msg;
+        el.className = "notice " + (type === "ok" ? "notice-ok" : "notice-info");
+      }
+
+      function escapeHtml(str) {
+        return String(str || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      let epreuves = chargerEpreuves();
+      let catalogueActif = "evaluation";
+
+      // Onglets principaux
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const cible = btn.getAttribute("data-tab");
+          document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+          document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
+          btn.classList.add("active");
+          const targetPanel = document.getElementById("tab-" + cible);
+          if (targetPanel) targetPanel.classList.add("active");
+          if (cible === "eleve") renderCatalogue();
+          if (cible === "enseignant") renderEnseignant();
+          if (cible === "paiement") {
+            renderUnlockStatus();
+            renderTransactions();
+          }
+        });
+      });
+
+      // Onglets des 3 catalogues (Évaluation, Devoir, Examen)
+      document.querySelectorAll(".cat-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          catalogueActif = btn.getAttribute("data-cat") || "evaluation";
+          document.querySelectorAll(".cat-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderCatalogue();
+        });
+      });
+
+      function renderCatalogue() {
+        const container = document.getElementById("catalogueList");
+        const mat = document.getElementById("filterMatiere").value;
+        const dip = document.getElementById("filterDiplome").value;
+        const q = document.getElementById("filterSearch").value.trim().toLowerCase();
+
+        const filtres = epreuves.filter((ep) => {
+          const okCat = (ep.catalogue || "devoir") === catalogueActif;
+          const okMat = !mat || ep.matiere === mat;
+          const okDip = !dip || ep.diplome === dip;
+          const texte = (ep.titre + " " + ep.matiere + " " + ep.diplome + " " + ep.resume).toLowerCase();
+          const okQ = !q || texte.includes(q);
+          return okCat && okMat && okDip && okQ;
+        });
+
+        if (filtres.length === 0) {
+          container.innerHTML =
+            '<div class="empty-state">Aucune épreuve disponible dans le <strong>Catalogue des épreuves ' +
+            (catalogueActif === "evaluation" ? "d'évaluation" : catalogueActif === "devoir" ? "de devoir" : "d'examen") +
+            "</strong> avec ces filtres.</div>";
+          return;
+        }
+
+        container.innerHTML = filtres
+          .map((ep) => {
+            const epUnlocked = isOptionUnlocked(ep, "epreuve");
+            const packUnlocked = isOptionUnlocked(ep, "pack");
+            const prixEp = Number(ep.prixEpreuve || 0);
+            const prixPk = Number(ep.prixPack || 0);
+
+            const btnEpreuve = epUnlocked
+              ? '<button class="btn btn-success" onclick="window.telechargerOption(\'' + escapeHtml(ep.id) + '\', \'epreuve\')">Télécharger l\'épreuve</button>'
+              : '<button class="btn btn-primary" onclick="window.choisirOption(\'' + escapeHtml(ep.id) + '\', \'epreuve\')">Choisir l\'épreuve (' + prixEp + ' FCFA)</button>';
+
+            const btnPack = packUnlocked
+              ? '<button class="btn btn-success" onclick="window.telechargerOption(\'' + escapeHtml(ep.id) + '\', \'pack\')">Télécharger Pack (Épreuve + Corrigé)</button>'
+              : '<button class="btn btn-warning" onclick="window.choisirOption(\'' + escapeHtml(ep.id) + '\', \'pack\')">Choisir Pack Épreuve + Corrigé (' + prixPk + ' FCFA)</button>';
+
+            return (
+              '<article class="card">' +
+              "<div>" +
+              '<div class="card-tags">' +
+              '<span class="tag tag-cat">' + escapeHtml(CATALOGUE_LABELS[ep.catalogue] || "Devoir") + "</span>" +
+              '<span class="tag">' + escapeHtml(ep.matiere) + "</span>" +
+              '<span class="tag tag-level">' + escapeHtml(ep.diplome) + "</span>" +
+              "</div>" +
+              "<h3>" + escapeHtml(ep.titre) + "</h3>" +
+              "<p>" + escapeHtml(ep.resume || "Sujet et corrigé ÉpreuvePlus.") + "</p>" +
+              "</div>" +
+              '<div class="offer-box">' +
+              '<div class="offer-row">' +
+              '<span class="price">1. Épreuve seule : ' + (prixEp === 0 ? "Gratuite" : prixEp + " FCFA") + "</span>" +
+              btnEpreuve +
+              "</div>" +
+              '<div class="offer-row">' +
+              '<span class="price">2. Pack (Épreuve + Corrigé) : ' + (prixPk === 0 ? "Gratuit" : prixPk + " FCFA") + "</span>" +
+              btnPack +
+              "</div>" +
+              "</div>" +
+              "</article>"
+            );
+          })
+          .join("");
+      }
+
+      // Ouverture automatique du formulaire de paiement dès qu'un élève choisit l'épreuve ou le pack payant
+      window.choisirOption = function (id, optionType) {
+        const ep = epreuves.find((item) => item.id === id);
+        if (!ep) return;
+
+        if (isOptionUnlocked(ep, optionType)) {
+          window.telechargerOption(id, optionType);
+          return;
+        }
+
+        const montant = optionType === "pack" ? Number(ep.prixPack || 0) : Number(ep.prixEpreuve || 0);
+        const libelleOption = optionType === "pack" ? "Pack (Épreuve + Corrigé)" : "Épreuve seule";
+
+        document.getElementById("payEpreuveId").value = ep.id;
+        document.getElementById("payOptionType").value = optionType;
+        document.getElementById("modalPaySummary").innerHTML =
+          "<strong>Document choisi :</strong> " + escapeHtml(ep.titre) + "<br>" +
+          "<strong>Formule :</strong> " + escapeHtml(libelleOption) + " — <strong>Montant : " + montant + " FCFA</strong><br>" +
+          "Effectuez le dépôt sur le <strong>+229 0152258067</strong> puis renseignez vos informations ci-dessous :";
+
+        document.getElementById("paymentModal").classList.add("open");
+      };
+
+      function fermerModalPaiement() {
+        document.getElementById("paymentModal").classList.remove("open");
+      }
+
+      document.getElementById("btnCloseModal").addEventListener("click", fermerModalPaiement);
+      document.getElementById("btnCancelModal").addEventListener("click", fermerModalPaiement);
+
+      document.getElementById("formPaiementEleve").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const epId = document.getElementById("payEpreuveId").value;
+        const optionType = document.getElementById("payOptionType").value;
+        const nomPrenom = document.getElementById("payNomPrenom").value.trim();
+        const reseau = document.getElementById("payReseau").value;
+        const numero = document.getElementById("payNumero").value.trim();
+        const reference = document.getElementById("payReference").value.trim();
+
+        if (!nomPrenom || !reseau || !numero || !reference) return;
+
+        const ep = epreuves.find((item) => item.id === epId);
+        if (!ep) return;
+
+        const montant = optionType === "pack" ? Number(ep.prixPack || 0) : Number(ep.prixEpreuve || 0);
+        const libelleOption = optionType === "pack" ? "Pack (Épreuve + Corrigé)" : "Épreuve seule";
+
+        const tx = {
+          id: "TX-" + Date.now(),
+          date: new Date().toLocaleString("fr-FR"),
+          nomPrenom,
+          reseau,
+          numero,
+          reference,
+          epreuveTitre: ep.titre,
+          option: libelleOption,
+          montant
+        };
+
+        saveTransaction(tx);
+        markOptionPaid(ep.id, optionType);
+        e.target.reset();
+        fermerModalPaiement();
+        renderCatalogue();
+        setBanner("Paiement enregistré (Réf : " + reference + "). Le téléchargement est maintenant débloqué !", "ok");
+
+        const msgWa = encodeURIComponent(
+          "Bonjour ÉpreuvePlus, paiement effectué :\n" +
+          "- Nom & Prénom : " + nomPrenom + "\n" +
+          "- Réseau : " + reseau + "\n" +
+          "- Numéro : " + numero + "\n" +
+          "- Référence : " + reference + "\n" +
+          "- Choix : " + libelleOption + " (" + ep.titre + " — " + montant + " FCFA)"
+        );
+        window.open("https://wa.me/2290152258067?text=" + msgWa, "_blank", "noopener");
+      });
+
+      window.telechargerOption = function (id, optionType) {
+        const ep = epreuves.find((item) => item.id === id);
+        if (!ep) return;
+
+        if (!isOptionUnlocked(ep, optionType)) {
+          window.choisirOption(id, optionType);
+          return;
+        }
+
+        const pdfCible = optionType === "pack" ? (ep.pdfCorrige || ep.pdfEpreuve) : ep.pdfEpreuve;
+        if (pdfCible && /^https?:\/\//i.test(pdfCible)) {
+          window.open(pdfCible, "_blank", "noopener");
+        }
+
+        const contenu =
+          "ÉPREUVEPLUS — DOCUMENT TÉLÉCHARGÉ\n" +
+          "Titre : " + ep.titre + "\n" +
+          "Catalogue : " + (CATALOGUE_LABELS[ep.catalogue] || ep.catalogue) + "\n" +
+          "Matière : " + ep.matiere + " | Niveau/Diplôme : " + ep.diplome + "\n" +
+          "Formule : " + (optionType === "pack" ? "PACK (ÉPREUVE + CORRIGÉ TYPE)" : "ÉPREUVE SEULE") + "\n" +
+          "==================================================\n\n" +
+          "ÉNONCÉ / PRÉSENTATION DE L'ÉPREUVE :\n" +
+          (ep.resume || "Voir sujet joint.") + "\n\n" +
+          (optionType === "pack"
+            ? "==================================================\nCORRIGÉ TYPE & BARÈME :\n" +
+              (ep.corrigeTexte || "Corrigé type disponible.") + "\n"
+            : "");
+
+        const blob = new Blob([contenu], { type: "text/plain;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        const slug = (ep.titre || "epreuveplus")
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "");
+        a.href = url;
+        a.download = slug + "-" + optionType + ".txt";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        setBanner("Téléchargement effectué : " + a.download, "ok");
+      };
+
+      document.getElementById("filterMatiere").addEventListener("change", renderCatalogue);
+      document.getElementById("filterDiplome").addEventListener("change", renderCatalogue);
+      document.getElementById("filterSearch").addEventListener("input", renderCatalogue);
+
+      // QCM Automatisé
+      let questionsActives = [];
+
+      function chargerQcm() {
+        const mat = document.getElementById("qcmMatiere").value;
+        questionsActives = mat === "all" ? [...QCM_BANQUE] : QCM_BANQUE.filter((q) => q.matiere === mat);
+        const box = document.getElementById("qcmContainer");
+
+        if (questionsActives.length === 0) {
+          box.innerHTML = "<p>Aucune question disponible pour ce thème.</p>";
+          return;
+        }
+
+        box.innerHTML =
+          questionsActives
+            .map((q, idx) => {
+              const opts = q.options
+                .map(
+                  (opt, oIdx) =>
+                    '<label class="qcm-option">' +
+                    '<input type="radio" name="qcm_q_' + idx + '" value="' + oIdx + '" />' +
+                    "<span>" + escapeHtml(opt) + "</span>" +
+                    "</label>"
+                )
+                .join("");
+              return (
+'<div style="margin-bottom:18px;">' +
+                "<strong>Question " + (idx + 1) + " (" + escapeHtml(q.matiere) + ") :</strong> " +
+                escapeHtml(q.question) +
+                opts +
+                "</div>"
+              );
+            })
+            .join("") +
+          '<button id="btnCorrigerQcm" class="btn btn-success">Valider mes réponses</button>' +
+          '<div id="qcmResultat" style="margin-top:14px; font-weight:700;"></div>';
+
+        document.getElementById("btnCorrigerQcm").addEventListener("click", () => {
+          let score = 0;
+          questionsActives.forEach((q, idx) => {
+            const coche = document.querySelector('input[name="qcm_q_' + idx + '"]:checked');
+            if (coche && Number(coche.value) === q.reponse) {
+              score += 1;
+            }
+          });
+          const res = document.getElementById("qcmResultat");
+          res.textContent = "Votre score : " + score + " / " + questionsActives.length;
+          res.style.color = score >= Math.ceil(questionsActives.length / 2) ? "#15803d" : "#b91c1c";
+        });
+      }
+
+      document.getElementById("btnStartQcm").addEventListener("click", chargerQcm);
+
+      // Espace Enseignant
+      document.getElementById("formAjoutEpreuve").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const titre = document.getElementById("epTitre").value.trim();
+        const catalogue = document.getElementById("epCatalogue").value;
+        const matiere = document.getElementById("epMatiere").value;
+        const diplome = document.getElementById("epDiplome").value;
+        const prixEpreuve = Number(document.getElementById("epPrixEpreuve").value || 0);
+        const prixPack = Number(document.getElementById("epPrixPack").value || 0);
+        const pdfEpreuve = document.getElementById("epPdfEpreuve").value.trim();
+        const pdfCorrige = document.getElementById("epPdfCorrige").value.trim();
+        const resume = document.getElementById("epResume").value.trim();
+        const corrigeTexte = document.getElementById("epCorrigeTexte").value.trim();
+
+        if (!titre) return;
+
+        epreuves.unshift({
+          id: "ep-" + Date.now(),
+          titre,
+          catalogue,
+          matiere,
+          diplome,
+          prixEpreuve,
+          prixPack,
+          pdfEpreuve,
+          pdfCorrige,
+          resume,
+          corrigeTexte
+        });
+
+        sauvegarderEpreuves(epreuves);
+        e.target.reset();
+        renderEnseignant();
+        renderCatalogue();
+        setBanner("Épreuve ajoutée dans le catalogue (" + CATALOGUE_LABELS[catalogue] + ") : " + titre, "ok");
+      });
+
+      window.supprimerEpreuve = function (id) {
+        epreuves = epreuves.filter((item) => item.id !== id);
+        sauvegarderEpreuves(epreuves);
+        renderEnseignant();
+        renderCatalogue();
+        setBanner("Épreuve supprimée.", "info");
+      };
+
+      function renderEnseignant() {
+        const list = document.getElementById("enseignantList");
+        const count = document.getElementById("countEpreuves");
+        if (count) count.textContent = String(epreuves.length);
+
+        list.innerHTML = epreuves
+          .map(
+            (ep) =>
+              '<article class="card">' +
+              "<div>" +
+              '<div class="card-tags">' +
+              '<span class="tag tag-cat">' + escapeHtml(CATALOGUE_LABELS[ep.catalogue] || "Devoir") + "</span>" +
+              '<span class="tag">' + escapeHtml(ep.matiere) + "</span>" +
+              '<span class="tag tag-level">' + escapeHtml(ep.diplome) + "</span>" +
+              "</div>" +
+              "<h3>" + escapeHtml(ep.titre) + "</h3>" +
+              "<p>Épreuve seule : " + Number(ep.prixEpreuve || 0) + " FCFA | Pack : " + Number(ep.prixPack || 0) + " FCFA</p>" +
+              "</div>" +
+              '<div class="offer-row">' +
+              '<button class="btn btn-danger" onclick="window.supprimerEpreuve(\'' + escapeHtml(ep.id) + '\')">Supprimer</button>' +
+              "</div>" +
+              "</article>"
+          )
+          .join("");
+      }
+
+      // Paiements & Sauvegarde
+      function renderUnlockStatus() {
+        const el = document.getElementById("unlockStatus");
+        if (!el) return;
+        el.innerHTML = estDebloque()
+          ? '<span style="color:#15803d; font-weight:700;">Accès complet activé sur cet appareil.</span>'
+          : "Statut actuel : accès standard (chaque épreuve ou pack payant demande le formulaire de paiement Mobile Money).";
+      }
+
+      function renderTransactions() {
+        const box = document.getElementById("paiementsList");
+        const count = document.getElementById("countPaiements");
+        const txs = getTransactions();
+        if (count) count.textContent = String(txs.length);
+        if (!box) return;
+
+        if (txs.length === 0) {
+          box.innerHTML = '<div class="empty-state">Aucun paiement enregistré pour le moment.</div>';
+          return;
+        }
+
+        box.innerHTML = txs
+          .map(
+            (t) =>
+              '<div class="tx-item">' +
+              "<strong>" + escapeHtml(t.nomPrenom) + "</strong> — " + escapeHtml(t.reseau) + " (" + escapeHtml(t.numero) + ")<br>" +
+              "Réf. paiement : <strong>" + escapeHtml(t.reference) + "</strong> | Montant : <strong>" + Number(t.montant) + " FCFA</strong><br>" +
+              "Choix : " + escapeHtml(t.option) + " — <em>" + escapeHtml(t.epreuveTitre) + "</em> (" + escapeHtml(t.date) + ")" +
+              "</div>"
+          )
+          .join("");
+      }
+
+      document.getElementById("btnUnlockAll").addEventListener("click", () => {
+        const code = document.getElementById("unlockCode").value.trim().toUpperCase();
+        if (VALID_CODES.includes(code)) {
+          try {
+            localStorage.setItem(UNLOCK_KEY, "true");
+          } catch (err) {}
+          renderUnlockStatus();
+          renderCatalogue();
+          setBanner("Code validé : toutes les épreuves et tous les packs sont débloqués.", "ok");
+        } else {
+          setBanner("Code invalide. Contactez le +229 0152258067 sur WhatsApp.", "info");
+        }
+      });
+
+      document.getElementById("btnExportJson").addEventListener("click", () => {
+        const exportData = {
+          epreuves,
+          paiements: getTransactions()
+        };
+        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "epreuvesplus-sauvegarde.json";
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      document.getElementById("btnResetDemo").addEventListener("click", () => {
+        epreuves = [...EPREUVES_INITIALES];
+        sauvegarderEpreuves(epreuves);
+        renderEnseignant();
+        renderCatalogue();
+        setBanner("Catalogues réinitialisés avec les épreuves par défaut.", "info");
+      });
+
+      renderCatalogue();
+      chargerQcm();
+      renderEnseignant();
+      renderUnlockStatus();
+      renderTransactions();
+    })();
+  </script>
+</body>
+</html>
+       
