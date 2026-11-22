@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ÉpreuvePlus — Épreuves, QCM &amp; Corrigés Techniques</title>
+  <style>
+    :root {
+      --bg: #f4f6fa;
+      --surface: #ffffff;
+      --surface-alt: #eef2f8;
+      --text: #0f172a;
+      --muted: #475569;
+      --primary: #1d4ed8;
+      --primary-dark: #1e3a8a;
+      --accent: #0f766e;
+      --danger: #b91c1c;
+      --ok: #15803d;
+      --border: #cbd5e1;
+      --radius: 12px;
+      --shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 100%);
+      color: #ffffff;
+      padding: 20px 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .container {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 14px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.65rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: #dbeafe;
+      font-size: 0.92rem;
+    }
+
+    .info-pill {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 0.84rem;
+    }
+
+    nav.tabs {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      padding: 9px 15px;
+      border-radius: 9px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: #ffffff;
+      color: var(--primary-dark);
+      border-color: #ffffff;
+    }
+
+    main {
+      padding: 20px 0 42px;
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--surface-alt);
+      color: var(--primary-dark);
+      border: 1px solid #bfdbfe;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .badge-paid {
+      background: #fef3c7;
+      color: #92400e;
+      border-color: #fcd34d;
+    }
+
+    .badge-free {
+      background: #dcfce7;
+      color: #166534;
+      border-color: #86efac;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.88rem;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="file"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 9px 11px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.94rem;
+      background: #ffffff;
+      color: var(--text);
+    }
+
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn:hover { background: var(--primary-dark); }
+
+    .btn-secondary {
+      background: var(--surface-alt);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover { background: #e2e8f0; }
+
+    .btn-accent { background: var(--accent); }
+    .btn-accent:hover { background: #115e59; }
+
+    .btn-danger { background: var(--danger); }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .qcm-options {
+      display: grid;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .qcm-opt {
+      text-align: left;
+      justify-content: flex-start;
+      background: #f8fafc;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .qcm-opt.correct {
+      background: #dcfce7;
+      border-color: #16a34a;
+      color: #14532d;
+    }
+
+    .qcm-opt.wrong {
+      background: #fee2e2;
+      border-color: #dc2626;
+      color: #7f1d1d;
+    }
+
+    .box-info {
+      background: var(--surface-alt);
+      border-left: 4px solid var(--primary);
+      padding: 11px 13px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 0.92rem;
+    }
+
+    .epreuve-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: var(--surface);
+      margin-bottom: 14px;
+    }
+
+    .epreuve-enonce {
+      white-space: pre-line;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 0.92rem;
+    }
+
+    .msg-error {
+      color: var(--danger);
+      font-weight: 600;
+      font-size: 0.88rem;
+      margin-top: 6px;
+    }
+
+    .msg-ok {
+      color: var(--ok);
+      font-weight: 600;
+      font-size: 0.88rem;
+      margin-top: 6px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px 14px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      background: #ffffff;
+    }
+      </style>
+      </head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-top">
+        <div class="brand">
+          <h1>ÉpreuvePlus</h1>
+          <p>Sujets d'examens techniques (CAP EL, DT EL, BAC F3), QCM automatisés &amp; corrigés</p>
+        </div>
+        <div class="info-pill">
+          <div><strong>WhatsApp :</strong> +229 0152258067</div>
+          <div><strong>IFU :</strong> 0202448923815</div>
+        </div>
+      </div>
+
+      <nav class="tabs" aria-label="Navigation principale">
+        <button type="button" class="tab-btn active" data-tab="eleve">Élève / Étudiant</button>
+        <button type="button" class="tab-btn" data-tab="qcm">QCM Automatisé</button>
+        <button type="button" class="tab-btn" data-tab="enseignant">Enseignant (Ajout &amp; PDF)</button>
+        <button type="button" class="tab-btn" data-tab="infos">Paiement &amp; Sauvegarde</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- ONGLET 1 : ÉLÈVE / ÉTUDIANT -->
+    <section id="tab-eleve" class="panel active">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge">Catalogue des épreuves</span>
+            <h2 style="margin:6px 0 0; font-size:1.25rem;">Rechercher et consulter une épreuve</h2>
+          </div>
+          <div class="muted" id="statsCatalogue">0 épreuve disponible</div>
+        </div>
+
+        <div class="grid-3">
+          <div>
+            <label for="filtreRecherche">Mot-clé</label>
+            <input type="text" id="filtreRecherche" placeholder="Ex. : 2010, scie à ruban, étoile-triangle..." />
+          </div>
+          <div>
+            <label for="filtreCategorie">Examen / Filière</label>
+            <select id="filtreCategorie">
+              <option value="TOUTES">Toutes les catégories</option>
+              <option value="CAP EL">CAP EL</option>
+              <option value="DT EL">DT EL</option>
+              <option value="BAC F3">BAC F3</option>
+            </select>
+          </div>
+          <div>
+            <label for="filtreMatiere">Matière</label>
+            <select id="filtreMatiere">
+              <option value="TOUTES">Toutes les matières</option>
+              <option value="Schéma Électrique">Schéma Électrique</option>
+              <option value="Électrotechnique">Électrotechnique</option>
+              <option value="Automatisme">Automatisme</option>
+              <option value="Technologie">Technologie</option>
+              <option value="MEL">MEL</option>
+              <option value="TP">TP</option>
+              <option value="EST">EST</option>
+              <option value="MATHS">MATHS</option>
+              <option value="PCT">PCT</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="listeEpreuvesEleve"></div>
+
+      <!-- Bloc QCM du moment intégré sous la liste -->
+      <div class="card" id="blocQcmMoment">
+        <div class="card-header">
+          <span class="badge">QCM du moment (rotation auto)</span>
+          <span class="muted" id="compteurQcmMoment">Question 1</span>
+        </div>
+        <h3 id="texteQuestionMoment" style="margin:6px 0;">Chargement...</h3>
+        <div id="optionsQcmMoment" class="qcm-options"></div>
+        <div id="explicationQcmMoment" class="box-info" style="display:none;"></div>
+        <div class="btn-row" style="margin-top:10px;">
+          <button type="button" class="btn btn-secondary" id="btnQuestionSuivante">Question suivante</button>
+          <button type="button" class="btn btn-secondary" id="btnToggleAutoMoment">Pause rotation</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ONGLET 2 : QCM AUTOMATISÉ -->
+    <section id="tab-qcm" class="panel">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge">Entraînement continu</span>
+            <h2 style="margin:6px 0 0; font-size:1.25rem;">QCM à défilement automatique</h2>
+          </div>
+          <div class="muted" id="scoreQcmGlobal">Score : 0 / 0</div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:14px;">
+          <div>
+            <label for="filtreMatiereQcm">Thème / Matière</label>
+            <select id="filtreMatiereQcm">
+              <option value="TOUTES">Toutes les questions</option>
+              <option value="Électrotechnique">Électrotechnique &amp; Moteurs</option>
+              <option value="Automatisme">Automatisme &amp; GRAFCET</option>
+              <option value="Technologie">Technologie &amp; Normes</option>
+              <option value="MATHS">Numération &amp; Calcul</option>
+            </select>
+          </div>
+          <div>
+            <label for="intervalleQcmSelect">Rythme de changement automatique</label>
+            <select id="intervalleQcmSelect">
+              <option value="8000">Toutes les 8 secondes</option>
+              <option value="12000" selected>Toutes les 12 secondes</option>
+              <option value="20000">Toutes les 20 secondes</option>
+              <option value="0">Manuel uniquement (désactivé)</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="zoneQcmComplet">
+          <div class="muted" id="metaQcmComplet"></div>
+          <h3 id="titreQcmComplet" style="margin:8px 0;"></h3>
+          <div id="choixQcmComplet" class="qcm-options"></div>
+          <div id="feedbackQcmComplet" class="box-info" style="display:none;"></div>
+          <div class="btn-row" style="margin-top:12px;">
+            <button type="button" class="btn" id="btnQcmSuivantGrand">Question suivante</button>
+            <button type="button" class="btn btn-secondary" id="btnResetScoreQcm">Réinitialiser le score</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ONGLET 3 : ENSEIGNANT (AJOUT & IMPORT PDF) -->
+    <section id="tab-enseignant" class="panel">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge">Espace Enseignant</span>
+            <h2 style="margin:6px 0 0; font-size:1.25rem;">Ajouter une épreuve &amp; importer un PDF</h2>
+          </div>
+        </div>
+
+        <form id="formAjoutEpreuve">
+          <div class="grid-2">
+            <div>
+              <label for="titreEpreuve">Titre de l'épreuve *</label>
+              <input type="text" id="titreEpreuve" required placeholder="Ex. : CAP Électricité (2010) — Schéma Électrique : Scie à ruban" />
+            </div>
+            <div>
+              <label for="categorieEpreuve">Examen / Filière *</label>
+              <select id="categorieEpreuve" required>
+                <option value="CAP EL">CAP EL</option>
+                <option value="DT EL">DT EL</option>
+                <option value="BAC F3">BAC F3</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-3" style="margin-top:12px;">
+            <div>
+              <label for="matiereEpreuve">Matière *</label>
+              <select id="matiereEpreuve" required>
+                <option value="Schéma Électrique">Schéma Électrique</option>
+                <option value="Électrotechnique">Électrotechnique</option>
+                <option value="Automatisme">Automatisme</option>
+                <option value="Technologie">Technologie</option>
+                <option value="MEL">MEL</option>
+                <option value="TP">TP</option>
+                <option value="EST">EST</option>
+                <option value="MATHS">MATHS</option>
+                <option value="PCT">PCT</option>
+              </select>
+            </div>
+            <div>
+              <label for="anneeEpreuve">Session / Année</label>
+              <input type="text" id="anneeEpreuve" placeholder="Ex. : 2010 ou 2025-2026" />
+            </div>
+            <div>
+              <label for="accesEpreuve">Mode d'accès *</label>
+              <select id="accesEpreuve">
+                <option value="GRATUITE">Gratuit (accès direct)</option>
+                <option value="PAYANTE">Payante (déblocage par code)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top:12px;">
+            <div>
+              <label for="codeAccesEpreuve">Code d'accès (si épreuve payante)</label>
+              <input type="text" id="codeAccesEpreuve" placeholder="Ex. : CAP2010-EL" />
+            </div>
+            <div>
+              <label for="fichierPdfInput">Importer un fichier PDF (depuis l'appareil)</label>
+              <input type="file" id="fichierPdfInput" accept="application/pdf,.pdf" />
+              <div class="muted" id="nomFichierPdfChoisi">Aucun fichier PDF sélectionné.</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <label for="lienPdfExterne">Lien PDF / Google Drive (optionnel, pour téléchargement persistant)</label>
+            <input type="text" id="lienPdfExterne" placeholder="https://drive.google.com/file/d/... ou lien direct .pdf" />
+          </div>
+
+          <div style="margin-top:12px;">
+            <label for="apercuEpreuve">Aperçu gratuit (extrait visible par tous) *</label>
+            <textarea id="apercuEpreuve" required placeholder="Résumé du sujet, durée, coefficient, conditions d'accès..."></textarea>
+          </div>
+
+          <div style="margin-top:12px;">
+            <label for="enonceEpreuve">Énoncé complet / Corrigé détaillé *</label>
+            <textarea id="enonceEpreuve" required placeholder="Texte complet du sujet, questions, consignes ou corrigé..."></textarea>
+          </div>
+
+          <div class="btn-row" style="margin-top:14px;">
+            <button type="submit" class="btn">Publier dans le catalogue</button>
+            <button type="reset" class="btn btn-secondary" id="btnResetForm">Effacer les champs</button>
+          </div>
+          <div id="messagePublication"></div>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 style="margin:0;">Épreuves enregistrées (gestion)</h3>
+          <button type="button" class="btn btn-secondary" id="btnRestaurerDefaut">Restaurer les exemples initiaux</button>
+        </div>
+        <div id="listeGestionEnseignant"></div>
+      </div>
+    </section>
+
+    <!-- ONGLET 4 : PAIEMENT & SAUVEGARDE -->
+    <section id="tab-infos" class="panel">
+      <div class="card">
+        <h2 style="margin-top:0; font-size:1.25rem;">Procédure de paiement &amp; obtention du code</h2>
+        <p class="muted">
+          Pour obtenir le code de déverrouillage ou le fichier PDF complet d'une épreuve payante :
+        </p>
+        <ol>
+          <li>Effectue le paiement vers le numéro indiqué : <strong>+229 0152258067</strong> (Référence / IFU : <strong>0202448923815</strong>).</li>
+          <li>Envoie la preuve ou la référence du paiement sur <strong>WhatsApp Messenger</strong> au <strong>+229 0152258067</strong> en précisant le titre de l'épreuve.</li>
+          <li>Saisis le code reçu dans le champ <strong>Code d'accès</strong> de la fiche d'épreuve pour afficher et télécharger le PDF.</li>
+        </ol>
+        <a
+          class="btn btn-accent"
+          href="https://wa.me/2290152258067?text=Bonjour%20%C3%89preuvePlus%2C%20je%20souhaite%20obtenir%20le%20code%20d%27acc%C3%A8s%20pour%20une%20%C3%A9preuve."
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Contacter sur WhatsApp (+229 0152258067)
+        </a>
+      </div>
+
+      <div class="card">
+        <h2 style="margin-top:0; font-size:1.25rem;">Sauvegarde et exportation du catalogue (JSON)</h2>
+        <p class="muted">
+          Les épreuves ajoutées dans ce navigateur sont sauvegardées localement. Tu peux exporter un fichier JSON de sauvegarde ou réimporter une sauvegarde existante.
+        </p>
+        <div class="btn-row">
+          <button type="button" class="btn" id="btnExporterJson">Exporter le catalogue (.json)</button>
+          <label class="btn btn-secondary" style="margin:0;">
+            Importer un fichier (.json)
+            <input type="file" id="inputImporterJson" accept="application/json,.json" style="display:none;" />
+          </label>
+        </div>
+        <div id="messageSauvegarde"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    ÉpreuvePlus • Contact WhatsApp : +229 0152258067 • IFU : 0202448923815
+  </footer>
+
+  <script>
+    const STORAGE_KEY = "epreuveplus_catalog_v1";
+    const pdfSessionUrls = {};
+
+    const QUESTIONS_QCM = [
+      {
+        matiere: "Technologie",
+        q: "Quelle est la section minimale en cuivre pour un circuit dédié à un chauffe-eau 230 V (NF C 15-100) ?",
+        choix: ["1,5 mm²", "2,5 mm²", "6 mm²"],
+        bonne: 1,
+        explication: "Selon la norme NF C 15-100, la section minimale est de 2,5 mm² en cuivre avec disjoncteur adapté."
+      },
+      {
+        matiere: "Électrotechnique",
+        q: "Lors d'un démarrage étoile-triangle, quel est le rapport entre le courant en ligne étoile (IdY) et triangle (IdΔ) ?",
+        choix: ["IdY = IdΔ / 3", "IdY = 3 · IdΔ", "IdY = IdΔ / √3"],
+        bonne: 0,
+        explication: "Le couplage étoile réduit la tension par √3 et le courant en ligne au démarrage par 3 (IdY = IdΔ / 3)."
+      },
+      {
+        matiere: "Électrotechnique",
+        q: "Un moteur 230 V / 400 V est branché sur un réseau triphasé 400 V entre phases. Quel couplage statorique réaliser ?",
+        choix: ["Couplage étoile (Y)", "Couplage triangle (Δ)", "Couplage série"],
+        bonne: 1,
+        explication: "Chaque enroulement supporte 230 V ; sur un réseau 400 V entre phases, il faut coupler en triangle (400 / √3 ≈ 230 V)."
+      },
+      {
+        matiere: "Automatisme",
+        q: "Dans un GRAFCET, quel élément indique la condition qui autorise le franchissement d'une transition validée ?",
+        choix: ["L'action associée", "La réceptivité", "La temporisation forcée"],
+        bonne: 1,
+        explication: "La réceptivité est la condition logique associée à la transition."
+      },
+      {
+        matiere: "MATHS",
+        q: "Quelle est la valeur décimale de la multiplication binaire (0010)₂ × (0110)₂ ?",
+        choix: ["8", "12", "14"],
+        bonne: 1,
+        explication: "(0010)₂ = 2 et (0110)₂ = 6 ; 2 × 6 = 12 en décimal."
+      },
+      {
+        matiere: "Électrotechnique",
+        q: "Dans un moteur à courant continu à excitation séparée, comment inverse-t-on le sens de rotation ?",
+        choix: [
+          "En inversant simultanément l'induit et l'inducteur",
+          "En inversant uniquement la polarité de l'induit (ou de l'inducteur)",
+          "En réduisant la tension d'alimentation de moitié"
+        ],
+        bonne: 1,
+        explication: "Inverser les deux polarités laisse le sens inchangé ; il faut inverser un seul des deux circuits."
+      }
+    ];
+
+    const EPREUVES_INITIALES = [
+      {
+        id: "cap-2010-schema",
+        titre: "CAP Électricité (2010) — Schéma Électrique : Scie à ruban",
+        categorie: "CAP EL",
+        matiere: "Schéma Électrique",
+        annee: "2010",
+        acces: "GRATUITE",
+        codeAcces: "",
+        lienPdf: "",
+        nomPdf: "",
+        apercu: "DEC/MESFTP — CAP Électricité (2010) — Épreuve : Schéma Électrique (Durée : 2 h, Coef. : 2). Moteur asynchrone triphasé 220 V / 380 V avec démarrage étoile-triangle-résistance deux sens de marche, voyants H1, H2, H3 et temporisations.",
+        enonce: "Description : Atelier de menuiserie équipé d'une scie à ruban à moteur asynchrone triphasé 220 V / 380 V.\nFonctionnement : Fermeture du sectionneur Q, impulsion sur S pour lancer le système, puis S1 pour démarrage étoile 1er sens (voyant H1), passage en résistance triangle après 3 s (voyant H2), puis triangle après 3 s (voyant H3). Marche en régime normal 2 s, arrêt automatique puis inversion du sens après 5 s d'arrêt. Arrêt général par S0 et protection par relais thermique.\nTravail à faire : Réaliser les circuits de puissance et de commande."
+      },
+      {
+        id: "dt-el-moteurs-2025",
+        titre: "DT EL — Électrotechnique : Démarrage & Couplage Moteurs",
+        categorie: "DT EL",
+        matiere: "Électrotechnique",
+        annee: "2025",
+        acces: "PAYANTE",
+        codeAcces: "DTEL2025",
+        lienPdf: "",
+        nomPdf: "Sujet_DT_EL_Moteurs_2025.pdf",
+        apercu: "Épreuve d'entraînement DT EL sur le dimensionnement, les couplages Y/Δ et l'analyse des courbes courant/couple au démarrage. Code requis après paiement au +229 0152258067.",
+        enonce: "Partie A : Choix des couplages sur réseaux 230 V / 400 V et calcul des intensités nominales et de démarrage.\nPartie B : Comparaison démarrage direct, statorique et étoile-triangle."
+      }
+    ];
+
+    function chargerEpreuves() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(EPREUVES_INITIALES));
+          return [...EPREUVES_INITIALES];
+        }
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [...EPRE
+    
