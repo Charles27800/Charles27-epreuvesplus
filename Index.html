@@ -64,7 +64,6 @@ table{width:100%;border-collapse:collapse;font-size:.92rem}th,td{text-align:left
 <div class="logo"><i>⚡</i>Épreuve Plus</div>
 <div><a href="#devoirs">Devoirs</a><a href="#evaluations">Évaluations</a><a href="#examens">Examens</a><a href="#qcm">QCM</a><a href="#tarifs">Tarifs</a><a href="#admin" id="adm-link" hidden>Administration</a><button class="chip" id="vis-btn" hidden>Voir comme un visiteur</button></div>
 </nav></div></header>
-
 <main class="wrap">
 <div class="hero">
 <div>
@@ -74,22 +73,18 @@ table{width:100%;border-collapse:collapse;font-size:.92rem}th,td{text-align:left
 </div>
 <div class="panel" aria-live="polite" id="hero-q"></div>
 </div>
-
 <section id="comment"><h2>Comment ça marche</h2><ol class="steps"><li>Choisissez une épreuve dans la banque.</li><li>Payez par Mobile Money et renseignez votre référence.</li><li>Recevez l’épreuve et son corrigé après validation.</li></ol></section>
 <section id="devoirs"><h2>Devoirs</h2><div id="z-devoir"></div></section>
 <section id="evaluations"><h2>Évaluations sommatives</h2><div id="z-evaluation"></div></section>
 <section id="examens"><h2>Épreuves d’examens</h2><div id="z-examen"></div></section>
-
 <section id="qcm">
 <h2>Testez vos connaissances</h2>
 <div class="filters" id="quiz-pick" role="group" aria-label="Choisir un QCM"></div>
 <div class="panel" id="quiz" aria-live="polite"></div>
 </section>
-
 <div id="adm-slot"></div>
 <template id="adm-tpl"><section id="admin">
 <h2>Administration</h2>
-
 <h3 style="margin-top:24px">Paiements reçus</h3><div class="scroll" id="a-pay"></div>
 <h3 style="margin-top:24px">Avis à valider</h3><div class="scroll" id="a-avis"></div>
 <h3 style="margin-top:24px">Abonnements</h3><div class="scroll" id="a-sub"></div>
@@ -105,9 +100,7 @@ table{width:100%;border-collapse:collapse;font-size:.92rem}th,td{text-align:left
 </section>
 <section id="avis"><h2>Avis des visiteurs</h2><div class="grid" id="avis-list"></div><div class="panel" style="margin-top:20px"><h3>Donnez votre avis sur le site</h3><label for="v-n">Nom ou pseudo</label><input id="v-n"><label for="v-s">Note</label><select id="v-s"><option value="5">5 sur 5</option><option value="4">4 sur 5</option><option value="3">3 sur 5</option><option value="2">2 sur 5</option><option value="1">1 sur 5</option></select><label for="v-m">Votre avis</label><input id="v-m"><p class="fb" id="v-fb"></p><button class="btn" id="v-go">Envoyer mon avis</button></div></section>
 </main>
-
 <footer><div class="wrap">Épreuves_Devoirs_F3_@charles — Électrotechnique, filière F3. Contact, conditions d’utilisation et mentions légales à compléter avant le lancement.</div></footer>
-
 <dialog id="dpay"><h3 id="dpt">Payer</h3><p class="note">Envoyez le montant par Mobile Money au <b id="pnum"></b>, puis remplissez ce formulaire. Vous recevrez l’épreuve et son corrigé après validation du paiement.</p>
 <label for="p-n">Nom</label><input id="p-n"><label for="p-p">Prénom</label><input id="p-p">
 <label for="p-t">Numéro utilisé pour le paiement</label><input id="p-t" type="tel"><label for="p-e">Adresse Gmail</label><input id="p-e" type="email" placeholder="nom@gmail.com"><label for="p-m">Montant payé (FCFA)</label><input id="p-m" type="number" min="1" inputmode="numeric"><label for="p-r">Code de référence du paiement</label><input id="p-r">
@@ -116,7 +109,6 @@ table{width:100%;border-collapse:collapse;font-size:.92rem}th,td{text-align:left
 <label for="s-n">Nom</label><input id="s-n"><label for="s-p">Prénom</label><input id="s-p">
 <label for="s-e">Adresse Gmail</label><input id="s-e" type="email" placeholder="nom@gmail.com"><label for="s-t">Numéro de téléphone</label><input id="s-t" type="tel">
 <label for="s-m">Montant payé (FCFA)</label><input id="s-m" type="number" min="1" inputmode="numeric"><label for="s-r">Code de référence du paiement</label><input id="s-r"><p class="fb" id="s-fb"></p><button class="btn" id="s-go">Envoyer ma demande</button> <button class="btn alt" onclick="dsub.close()">Annuler</button></dialog>
-
 <script>
 let EPS=[],DB=null,AS=null,ADMIN=false,UID=null,V={};const PAY_NUM="+229 01 52 25 80 67";
 const QZ={
@@ -367,7 +359,6 @@ async function send(col,data,fb,dlg,due){
 }
 $("#p-go").onclick=()=>send("paiements",{nom:$("#p-n").value,prenom:$("#p-p").value,numero:$("#p-t").value,gmail:$("#p-e").value,montantPaye:$("#p-m").value,reference:$("#p-r").value,epreuve:cur.t,epreuveId:cur.id,montant:cur.p},$("#p-fb"),dpay,cur.p);
 $("#s-go").onclick=()=>send("abonnements",{nom:$("#s-n").value,prenom:$("#s-p").value,gmail:$("#s-e").value,numero:$("#s-t").value,montantPaye:$("#s-m").value,reference:$("#s-r").value},$("#s-fb"),dsub,1500);
-
 let AV=[];
 function drawAvis(){
  const L=AV.filter(a=>V[a.id]).sort((a,b)=>b.date>a.date?1:-1);
@@ -419,7 +410,6 @@ function startQuiz(name){
 $("#quiz-pick").innerHTML=Object.keys(QZ).map(n=>`<button class="chip" data-n="${n}" aria-pressed="false">${n}</button>`).join("");
 $("#quiz-pick").addEventListener("click",e=>{if(e.target.dataset.n)startQuiz(e.target.dataset.n)});
 startQuiz("Diode à jonction");
-
 // question d’accueil
 (function h(){const q=draw("Diode à jonction").slice(0,1);
  runQuiz($("#hero-q"),q,s=>{$("#hero-q").innerHTML=`<h3>${s?"Bien joué.":"Pas tout à fait."}</h3><p>Ce n’est qu’un aperçu : des dizaines de questions vous attendent.</p><a class="btn" href="#qcm">Continuer les QCM</a>`});
